@@ -2,8 +2,6 @@
 
 An interactive Braille learning device with an AI-driven adaptive tutor, animated web dashboard, and tactile 6-dot Braille cell. Practice and test modes adjust to your weak symbols using spaced repetition, while Text-to-Speech provides voice instructions for every letter, number, and contraction.
 
-![Braille Cell](public/images/icons-192.png)
-
 ## Table of Contents
 
 - [Overview](#overview)
