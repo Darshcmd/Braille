@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Braille Tutor</title>
+  <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/icons-192.png">
+  <link rel="stylesheet" href="/src/style.css">
+</head>
+<body>
+  <div id="sound-banner" class="sound-banner">Click anywhere to enable voice instructions</div>
+  <header class="app-bar">
+    <div class="app-bar-left">
+      <img src="/images/favicon.svg" alt="Braille Tutor" class="logo-icon" width="28" height="28">
+      <span class="app-title">Braille Tutor</span>
+    </div>
+    <div class="app-bar-right">
+      <div id="status-pill" class="status pill-disconnected">
+        <span class="pill-dot"></span>
+        <span id="status-text">Disconnected</span>
+      </div>
+      <button id="connect-btn" class="btn btn-primary">Connect</button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="teaching-area">
+      <div class="card pattern-card">
+        <div class="pattern-header">
+          <div id="lottie-container" class="lottie-box"></div>
+          <div class="pattern-info">
+            <div class="pattern-label">Current letter</div>
+            <div id="current-char" class="big-char">A</div>
+            <div id="pattern-instruction" class="instruction">Press the dots that are raised</div>
+          </div>
+        </div>
+
+        <div class="cell-wrap">
+          <div id="braille-cell" class="braille-cell">
+            <div class="dot" data-dot="0"><span class="dot-num">1</span></div>
+            <div class="dot" data-dot="3"><span class="dot-num">4</span></div>
+            <div class="dot" data-dot="1"><span class="dot-num">2</span></div>
+            <div class="dot" data-dot="4"><span class="dot-num">5</span></div>
+            <div class="dot" data-dot="2"><span class="dot-num">3</span></div>
+            <div class="dot" data-dot="5"><span class="dot-num">6</span></div>
+          </div>
+        </div>
+
+        <div class="calibrate-row">
+          <button id="calibrate-btn" class="btn btn-ghost">Calibrate buttons & pins</button>
+        </div>
+
+        <div class="controls-row">
+          <button id="hint-btn" class="btn btn-ghost">Hint</button>
+          <button id="repeat-btn" class="btn btn-ghost">Repeat</button>
+          <button id="next-btn" class="btn btn-ghost">Next</button>
+          <button id="practice-weak-btn" class="btn btn-ghost">Practice weak</button>
+          <button id="reset-btn" class="btn btn-ghost">Reset stats</button>
+        </div>
+      </div>
+
+      <div class="card mode-card">
+        <div class="card-label">Mode</div>
+        <div class="seg-control">
+          <button class="seg-btn active" data-mode="practice">Practice</button>
+          <button class="seg-btn" data-mode="test">Test</button>
+        </div>
+        <div class="card-label" style="margin-top:12px">Curriculum</div>
+        <div class="seg-control">
+          <button class="seg-btn active" data-curriculum="alphabet">Alphabet</button>
+          <button class="seg-btn" data-curriculum="numbers">Numbers</button>
+          <button class="seg-btn" data-curriculum="contractions">Contractions</button>
+        </div>
+        <div class="keys-hint">
+          <span><kbd>Space</kbd> mode</span>
+          <span><kbd>A</kbd> alpha</span>
+          <span><kbd>N</kbd> numbers</span>
+          <span><kbd>C</kbd> contr</span>
+        </div>
+      </div>
+    </section>
+
+    <aside class="side-rail">
+      <div class="card progress-card">
+        <div class="card-label">Progress</div>
+        <div class="stat-row">
+          <span class="stat-num" id="stat-perfect">0</span>
+          <span class="stat-label">Perfect</span>
+        </div>
+        <div class="stat-row">
+          <span class="stat-num" id="stat-solved">0</span>
+          <span class="stat-label">Solved</span>
+        </div>
+        <div class="stat-row">
+          <span class="stat-num" id="stat-time">--</span>
+          <span class="stat-label">Avg time</span>
+        </div>
+        <div class="stat-row">
+          <span class="stat-num" id="stat-misses">0</span>
+          <span class="stat-label">Misses</span>
+        </div>
+      </div>
+
+      <div class="card weak-card">
+        <div class="card-label">Weakest symbols</div>
+        <ul id="weak-list" class="weak-list">
+          <li class="weak-empty">Not enough data yet</li>
+        </ul>
+      </div>
+
+      <div class="card recent-card">
+        <div class="card-label">Recent</div>
+        <ul id="recent-list" class="recent-list"></ul>
+      </div>
+
+      <div class="card serial-card">
+        <details>
+          <summary class="card-label">Serial monitor</summary>
+          <div id="serial-log" class="serial-log"></div>
+          <div class="serial-input-row">
+            <input id="serial-input" type="text" placeholder="Send command..." class="serial-input">
+            <button id="serial-send" class="btn btn-small">Send</button>
+          </div>
+        </details>
+      </div>
+    </aside>
+  </main>
+
+  <footer class="app-footer">
+    <span>Made by <strong>Darsh Soni</strong></span>
+    <span class="footer-sep">|</span>
+    <a href="mailto:darsh.codes@gmail.com">darsh.codes@gmail.com</a>
+  </footer>
+
+  <div id="confetti-container" class="confetti-container"></div>
+
+  <!-- Calibration wizard modal -->
+  <div id="cal-modal" class="modal-overlay" style="display:none">
+    <div class="modal">
+      <div class="modal-head">
+        <h2 id="cal-title">Calibrate</h2>
+        <button id="cal-close" class="btn btn-ghost btn-small">Close</button>
+      </div>
+      <div id="cal-body" class="modal-body">
+        <!-- Step 1: Buttons -->
+        <div id="cal-step-buttons" class="cal-step">
+          <p class="cal-instruct">Step 1 of 2: We'll ask you to press each button in order. Press the button that should be <strong>button 1</strong> (top-left dot).</p>
+          <div class="cal-progress">
+            <span id="cal-btn-status">Press button 1</span>
+            <div class="cal-dots">
+              <span class="cal-dot" data-cal="0"></span>
+              <span class="cal-dot" data-cal="1"></span>
+              <span class="cal-dot" data-cal="2"></span>
+              <span class="cal-dot" data-cal="3"></span>
+              <span class="cal-dot" data-cal="4"></span>
+              <span class="cal-dot" data-cal="5"></span>
+            </div>
+          </div>
+          <button id="cal-skip-buttons" class="btn btn-ghost btn-small">Skip button calibration</button>
+        </div>
+
+        <!-- Step 2: Servos -->
+        <div id="cal-step-servos" class="cal-step" style="display:none">
+          <p class="cal-instruct">Step 2 of 2: We'll raise each servo one at a time. Click the number of the dot that just rose.</p>
+          <div class="cal-progress">
+            <span id="cal-servo-status">Raising servo 1...</span>
+            <div class="cal-dots">
+              <span class="cal-dot" data-cal="0"></span>
+              <span class="cal-dot" data-cal="1"></span>
+              <span class="cal-dot" data-cal="2"></span>
+              <span class="cal-dot" data-cal="3"></span>
+              <span class="cal-dot" data-cal="4"></span>
+              <span class="cal-dot" data-cal="5"></span>
+            </div>
+          </div>
+          <div class="cal-servo-pick">
+            <button class="btn btn-outline" data-servo-pick="1">Dot 1</button>
+            <button class="btn btn-outline" data-servo-pick="2">Dot 2</button>
+            <button class="btn btn-outline" data-servo-pick="3">Dot 3</button>
+            <button class="btn btn-outline" data-servo-pick="4">Dot 4</button>
+            <button class="btn btn-outline" data-servo-pick="5">Dot 5</button>
+            <button class="btn btn-outline" data-servo-pick="6">Dot 6</button>
+          </div>
+          <button id="cal-skip-servos" class="btn btn-ghost btn-small">Skip servo calibration</button>
+        </div>
+
+        <!-- Done -->
+        <div id="cal-step-done" class="cal-step" style="display:none">
+          <p class="cal-instruct">Calibration saved. Your button and pin mappings are stored in this browser.</p>
+          <button id="cal-done-btn" class="btn btn-primary">Done</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="/src/index.ts"></script>
+</body>
+</html>

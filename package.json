@@ -1,0 +1,22 @@
+{
+  "name": "braille-tutor",
+  "version": "1.0.0",
+  "description": "Interactive Braille learning dashboard powered by Web Serial API",
+  "license": "Apache-2.0",
+  "type": "module",
+  "dependencies": {
+    "@types/w3c-web-serial": "^1.0.3",
+    "lottie-web": "^5.12.2",
+    "web-serial-polyfill": "^1.0.14"
+  },
+  "devDependencies": {
+    "@types/web": "^0.0.354",
+    "typescript": "^6.0.3",
+    "vite": "^8.2.0"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  }
+}

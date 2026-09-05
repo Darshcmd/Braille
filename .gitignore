@@ -1,0 +1,9 @@
+dist/
+dev-dist/
+build/
+.svelte-kit/
+node_modules/
+.eslintcache
+.DS_Store
+*.local
+.vite/
