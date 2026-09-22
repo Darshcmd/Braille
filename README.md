@@ -2,6 +2,8 @@
 
 An interactive Braille learning device with an AI-driven adaptive tutor, animated web dashboard, and tactile 6-dot Braille cell. Practice and test modes adjust to your weak symbols using spaced repetition, while Text-to-Speech provides voice instructions for every letter, number, and contraction.
 
+**Live demo:** https://braille-steel.vercel.app - open it in desktop Chrome or Edge to connect the board over Web Serial. On phones, tablets, Safari or Firefox the page still loads and you can practice by tapping the on-screen dots; Connect is disabled there because those browsers do not expose Web Serial.
+
 ## Table of Contents
 
 - [Overview](#overview)
@@ -213,8 +215,8 @@ Braille/
 ### Step 1: Clone the Repository
 
 ```bash
-git clone https://github.com/yourusername/braille-tutor.git
-cd braille-tutor
+git clone https://github.com/Darshcmd/Braille.git
+cd Braille
 ```
 
 ### Step 2: Install Dependencies
@@ -257,6 +259,12 @@ npm run preview
 ```
 
 Production build serves at http://localhost:4173.
+
+**Deploying:** this repo is linked to Vercel, so every push to `main` rebuilds and republishes https://braille-steel.vercel.app. `vercel.json` pins the build (framework `vite`, command `npm run build`, output `dist`) so a fresh Vercel import needs no manual settings. To deploy by hand:
+
+```bash
+npx vercel --prod
+```
 
 ### Step 6: Hardware Test (Optional)
 

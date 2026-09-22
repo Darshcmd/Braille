@@ -47,6 +47,12 @@ body {
   transform: translateY(-100%);
   pointer-events: none;
 }
+/* Shown when the browser has no Web Serial (phones, Safari, Firefox) */
+.sound-banner.warn {
+  background: var(--warning);
+  cursor: default;
+  animation: none;
+}
 @keyframes pulse-banner {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.7; }
@@ -110,6 +116,10 @@ body {
   border: 1px solid transparent;
   cursor: pointer;
   transition: all 0.1s ease;
+}
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 .btn-primary {

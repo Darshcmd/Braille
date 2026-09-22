@@ -334,6 +334,19 @@ async function disconnectFromPort() {
   updateStatus();
 }
 
+// Web Serial only exists in desktop Chrome/Edge. Instead of leaving a dead
+// Connect button on phones/Safari/Firefox, say so and keep dot practice usable.
+function checkSerialSupport() {
+  if (usePolyfill || 'serial' in navigator) return;
+  const banner = document.getElementById('sound-banner');
+  if (banner) {
+    banner.textContent = 'Web Serial is not available in this browser. Tap the dots below to practice, or open this page in desktop Chrome or Edge to connect the Braille board.';
+    banner.classList.add('warn');
+  }
+  connectBtn.disabled = true;
+  connectBtn.title = 'Web Serial requires desktop Chrome or Edge';
+}
+
 function setStatus(type: 'disconnected' | 'connecting' | 'connected' | 'error', text: string) {
   statusPill.className = `status pill-${type === 'error' ? 'connecting' : type}`;
   statusText.textContent = text;
@@ -697,6 +710,7 @@ serialInput.addEventListener('keydown', async (e) => {
 // ===== Init =====
 function init() {
   loadCalibration();
+  checkSerialSupport();
   initLottie($('lottie-container'));
   setSymbol('A');
   updateStatus();
