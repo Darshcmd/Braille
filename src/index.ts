@@ -92,10 +92,10 @@ function raiseServoForCalibration(physicalServoIdx: number) {
 }
 
 function calibrationServoPick(logicalDot: number) {
-  // Record: logical servo `servoIdx` = physical servo `servoIdx`
-  // Wait - we need to map physical servo -> logical servo
-  // servoMap[logical] = physical, so we're filling servoMap[servoIdx] = physical
-  servoMap[calibration.servoIdx] = logicalDot - 1; // logicalDot is 1-based user input
+  // servoMap[logical] = physical (0-indexed). The user sees physical servo
+  // `calibration.servoIdx` rise and clicks which logical dot it is, so:
+  // logical dot `logicalDot` (1-based) -> physical servo `calibration.servoIdx`.
+  servoMap[logicalDot - 1] = calibration.servoIdx;
   calibration.servoIdx++;
   playTone(1200, 40);
   if (calibration.servoIdx >= 6) {
