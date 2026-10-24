@@ -2,7 +2,9 @@
 
 An interactive Braille learning device with an AI-driven adaptive tutor, animated web dashboard, and tactile 6-dot Braille cell. Practice and test modes adjust to your weak symbols using spaced repetition, while Text-to-Speech provides voice instructions for every letter, number, and contraction.
 
-**Live demo:** https://braille-steel.vercel.app - open it in desktop Chrome or Edge to connect the board over Web Serial. On phones, tablets, Safari or Firefox the page still loads and you can practice by tapping the on-screen dots; Connect is disabled there because those browsers do not expose Web Serial.
+Youtube Video: https://youtu.be/glY3Zs2khNY
+
+<img width="1079" height="719" alt="WhatsApp Image 2026-10-24 at 16 12 07" src="https://github.com/user-attachments/assets/5fe5678e-e101-4791-b608-d1aaa672c734" />
 
 ## Table of Contents
 
